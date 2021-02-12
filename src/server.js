@@ -13,7 +13,7 @@ const books = [
   const authors = [
     { id: 1, first_name: 'Wole', last_name: 'Soyinka' },
     { id: 2, first_name: 'Tomi', last_name: 'Adeyemi' },
-    { id: 3, first_name: 'Chimamanda', last_name: 'Adichie' },
+    { id: 3, first_name: 'Chimamanda', last_name: 'Adichie' }
   ];
 
  
