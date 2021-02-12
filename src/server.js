@@ -1,6 +1,7 @@
 const  ApolloServer = require('apollo-server');
 const { find, filter } = require('lodash');
 const typeDefs = require("./typeDefs");
+import { Author, Book } from './store';
 
 const books = [
     { id: 1, title: 'The Trials of Brother Jero',  cover_image_url: 'ssdsds', average_rating: 8, authorId: 1 },
@@ -22,34 +23,33 @@ const books = [
 
   const resolvers = {
     Query: {
-      books: () => books,
-      book: (_, { id }) => find(books, { id: id }),
-      author: (_, { id }) => find(authors, { id: id }),
+      books: () => Book.findAll(),
+      book: (_, args ) => Book.find({ where: args }),
+      author: (_, args) => Author.find({ where: args })
     },
-    Mutation: {
-     addBook: (_, {title, cover_image_url, average_rating, authorId }) => {
-        book_id++;
-
-        const newBook = {
-          id: book_id,
-          title,
-          cover_image_url,
-          average_rating,
-          author_id
-        };
-
-        books.push(newBook);
-        return newBook;
-      }
-    },
+    
     Author: {
-      books: (author) => filter(books, { authorId: author.id }),
+      books: (author) => author.getBooks(),
     },
+    
     Book: {
-      author: (book) => find(authors, { id: book.authorId }),
+     author: (book) => book.getAuthor(),
     },
-  };
-
+    
+    Mutation: {
+      addBook: (_, {title, cover_image_url, average_rating, authorId }) => {
+    
+       return Book.create({
+          title: title,
+          cover_image_url: cover_image_url,
+          average_rating: average_rating,
+          authorId: authorId
+        }).then(book => {
+          return book;
+        });
+      }
+    }
+  }  
   const server = new ApolloServer({
     typeDefs,
     resolvers
