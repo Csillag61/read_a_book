@@ -1,5 +1,6 @@
-const { ApolloServer, gql } = require('apollo-server');
+const  ApolloServer = require('apollo-server');
 const { find, filter } = require('lodash');
+const typeDefs = require("./typeDefs");
 
 const books = [
     { id: 1, title: 'The Trials of Brother Jero',  cover_image_url: 'ssdsds', average_rating: 8, authorId: 1 },
@@ -15,41 +16,7 @@ const books = [
     { id: 3, first_name: 'Chimamanda', last_name: 'Adichie' },
   ];
 
- const typeDefs = gql`
-    type Author {
-      id: Int!
-      first_name: String!
-      last_name: String!
-      books: [Book]!
-    }
-
-    type Book {
-      id: Int!
-      title: String!
-      cover_image_url: String!
-      average_rating: Float!
-      author: Author!
-    }
-
-    type Query {
-      books {
-        id
-        title
-        cover_image_url
-        author {
-          first_name
-          last_name
-        }
-      }
-    }
-
-    
-
-    type Mutation {
-      addBook(title: String!, cover_image_url: String!, average_rating: Float!, authorId: Int!): Book!
-    }
-  `;
-
+ 
   let book_id = 5;
   let author_id = 3;
 
@@ -87,7 +54,6 @@ const books = [
     typeDefs,
     resolvers
   });
-  const url='http://localhost:4000';
-  server.listen().then(({ url }) => {
+  server.listen({port: process.env.PORT||4000}).then(({ url }) => {
     console.log(`🚀  Server ready at ${url}`);
   });

@@ -9,14 +9,16 @@ const db = new Sequelize('coolreads', null, null, {
 
 const AuthorModel = db.define('author', {
   first_name: { type: Sequelize.STRING },
-  last_name: { type: Sequelize.STRING },
+  last_name: { type: Sequelize.STRING }
 });
 
-const BookModel = db.define('book', {
+const BookModel = db.define('book', 
+{
   title: { type: Sequelize.STRING },
   cover_image_url: { type: Sequelize.STRING },
-  average_rating: { type: Sequelize.STRING },
-});
+  average_rating: { type: Sequelize.STRING }
+}
+);
 
 AuthorModel.hasMany(BookModel);
 BookModel.belongsTo(AuthorModel);
