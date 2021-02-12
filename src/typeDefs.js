@@ -1,4 +1,4 @@
-const { gql } = require("apollo-server");
+const { gql } = require("@apollo/client");
 
 export const typeDefs= gql`
 type Author {
